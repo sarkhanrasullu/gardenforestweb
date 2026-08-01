@@ -93,4 +93,28 @@ public class StudentRepository {
         }
     }
 
+    public Student getById(Integer id) {
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/education", "root", "11111111")) {//try-with-resources Closeable finally
+            PreparedStatement statement = connection.prepareStatement("select * from students where id=?");
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                int studentId = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String surname = resultSet.getString("surname");
+                int age = resultSet.getInt("age");
+                BigDecimal scholarship = resultSet.getBigDecimal("scholarship");
+                int universityId = resultSet.getInt("university_id");
+
+                return new Student(studentId, name, surname, age, scholarship, universityId);
+            }
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }
