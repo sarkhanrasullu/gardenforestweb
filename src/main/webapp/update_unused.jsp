@@ -1,11 +1,11 @@
 <%@ page import="com.gardenforest.studentregistrationweb.StudentRepository" %>
-<%@ page import="com.gardenforest.studentregistrationweb.Student" %>
+<%@ page import="com.gardenforest.studentregistrationweb.StudentEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
     StudentRepository repository = new StudentRepository();
-    Student student = repository.getById(Integer.parseInt(request.getParameter("id")));
+    StudentEntity student = repository.getById(Integer.parseInt(request.getParameter("id")));
 
 %>
 

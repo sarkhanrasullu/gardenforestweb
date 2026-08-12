@@ -1,5 +1,6 @@
 package com.gardenforest.studentregistrationweb;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @WebServlet(name = "studentsServlet", value = "/students")
 public class StudentServlet extends HttpServlet {
@@ -16,8 +18,19 @@ public class StudentServlet extends HttpServlet {
 
 
     @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<StudentEntity> list = repository.getList();
+
+        request.setAttribute("studentList", list);
+
+        request.getRequestDispatcher("index.jsp").forward(request, response);
+    }
+
+    @Override
     public void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Student student = new Student();
+        request.getSession().setAttribute("user", request.getParameter("name"));
+
+        StudentEntity student = new StudentEntity();
         student.setId(Integer.parseInt(request.getParameter("id")));
         student.setName(request.getParameter("name"));
         student.setSurname(request.getParameter("surname"));
@@ -38,7 +51,7 @@ public class StudentServlet extends HttpServlet {
             return;
         }
 
-        Student student = new Student();
+        StudentEntity student = new StudentEntity();
         student.setName(request.getParameter("name"));
         student.setSurname(request.getParameter("surname"));
         student.setAge(Integer.parseInt(request.getParameter("age")));

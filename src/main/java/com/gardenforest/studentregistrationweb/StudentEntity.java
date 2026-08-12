@@ -1,9 +1,15 @@
 package com.gardenforest.studentregistrationweb;
 
+import jakarta.persistence.*;
+
 import java.math.BigDecimal;
 
-public class Student {
+@Entity(name="Student")
+@Table(name="students")
+public class StudentEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String name;
     private String surname;
@@ -11,10 +17,10 @@ public class Student {
     private BigDecimal scholarship;
     private Integer universityId;
 
-    public Student() {
+    public StudentEntity() {
     }
 
-    public Student(Integer id, String name, String surname, Integer age, BigDecimal scholarship, Integer universityId) {
+    public StudentEntity(Integer id, String name, String surname, Integer age, BigDecimal scholarship, Integer universityId) {
         this.id = id;
         this.name = name;
         this.surname = surname;

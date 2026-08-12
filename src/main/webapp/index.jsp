@@ -1,12 +1,10 @@
 <%@ page import="com.gardenforest.studentregistrationweb.StudentRepository" %>
-<%@ page import="com.gardenforest.studentregistrationweb.Student" %>
+<%@ page import="com.gardenforest.studentregistrationweb.StudentEntity" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <%
-    StudentRepository repository = new StudentRepository();
-    List<Student> list = repository.getList();
-
+    List<StudentEntity> list = (List<StudentEntity>) request.getAttribute("studentList");
 %>
 
 <!DOCTYPE html>
@@ -14,20 +12,6 @@
     <head>
         <title>JSP - Hello World</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script>
-            function sayHello() {
-                var nameElement = document.getElementById("name");
-
-                alert(nameElement.value);
-            }
-
-            function copyText() {
-                var nameElement = document.getElementById("name");
-                var nameElement2 = document.getElementById("name2");
-
-                nameElement2.value = nameElement.value;
-            }
-        </script>
     </head>
     <body class="bg-light">
 
@@ -42,24 +26,21 @@
 
                 <table class="table table-striped table-hover align-middle">
                     <thead class="table-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Surname</th>
-                        <th>Age</th>
-                        <th>Actions</th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Age</th>
+                            <th>Actions</th>
+                        </tr>
                     </thead>
 
                     <tbody>
 
-                    <% for (Student student : list) { %>
+                    <% for (StudentEntity student : list) { %>
                     <tr>
-                        <td><%= student.getName() %>
-                        </td>
-                        <td><%= student.getSurname() %>
-                        </td>
-                        <td><%= student.getAge() %>
-                        </td>
+                        <td><%= student.getName() %></td>
+                        <td><%= student.getSurname() %></td>
+                        <td><%= student.getAge() %></td>
                         <td>
                             <button
                                     class="btn btn-warning btn-sm"
@@ -203,72 +184,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        function insertStudent() {
-
-            const form = new URLSearchParams();
-
-            form.append("name", document.getElementById("insertName").value);
-            form.append("surname", document.getElementById("insertSurname").value);
-            form.append("age", document.getElementById("insertAge").value);
-            form.append("scholarship", document.getElementById("insertScholarship").value);
-            form.append("universityId", document.getElementById("insertUniversityId").value);
-
-            fetch("students", {
-                method: "POST",
-                body: form
-            }).then(() => location.reload());
-        }
-
-        function openUpdateModal(id, name, surname, age, scholarship, universityId) {
-
-            updateId.value = id;
-            updateName.value = name;
-            updateSurname.value = surname;
-            updateAge.value = age;
-            updateScholarship.value = scholarship;
-            updateUniversityId.value = universityId;
-
-            new bootstrap.Modal(document.getElementById("updateModal")).show();
-        }
-
-        function updateStudent() {
-            const form = new URLSearchParams();
-
-            form.append("id", updateId.value);
-            form.append("name", updateName.value);
-            form.append("surname", updateSurname.value);
-            form.append("age", updateAge.value);
-            form.append("scholarship", updateScholarship.value);
-            form.append("universityId", updateUniversityId.value);
-            form.append("action", 'update');
-
-            fetch("students", {
-                method: "POST",
-                body: form
-            }).then(() => location.reload());
-        }
-
-        function openDeleteModal(id) {
-
-            deleteId.value = id;
-
-            new bootstrap.Modal(document.getElementById("deleteModal")).show();
-        }
-
-        function deleteStudent() {
-
-            const form = new URLSearchParams();
-
-            form.append("id", deleteId.value);
-            form.append("action", 'delete');
-
-            fetch("students", {
-                method: "POST",
-                body: form
-            }).then(() => location.reload());
-        }
-    </script>
+    <script src="index.js"></script>
     </body>
 </html>
